@@ -14,35 +14,59 @@
 
 </head>
 <body>
+<div class="row">
+    <div class="col-md-4">
+        <div >
+            <a class="btn btn-primary" style="float: right;margin-top:2rem" href="{{ url('/employee_create') }}">Create New Post</a>
+             </div>
+    </div>
+    <div class="col-md-2"></div>
+
+    <div class="col-md-5 mt-5">
+        <form action="/search"  style="display: flex">
+            @csrf
+            <input class="py-2 form-control" style="width:60%" type="text" name="search" placeholder="Search here...." value="{{ isset($search) ? $search :'' }}"/>
+            <button class="btn btn-primary py-2 " type="submit">Submit</button>
+        </form>
+
+    </div>
+</div>
+
     <div class="row">
-
-<div class="col-md-2" >
-  <a class="btn btn-primary" style="float: right;margin-top:2rem" href="{{ url('/employee_create') }}">Create Employee</a>
-   </div>
-
+        <div class="col-md-2"></div>
 <div class="col-md-8 mt-5" >
 
     <table class="table table-bordered">
         <thead>
           <tr>
             <th scope="col">Id</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Salary</th>
+            <th scope="col">Title</th>
+            <th scope="col">User</th>
+            <th scope="col">Description</th>
+            <th scope="col">Author's Name</th>
+            <th scope="col">Image</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
 
-            @foreach ($employees as $employee )
+            @foreach ($posts as $post )
 
           <tr>
-            <th scope="row">{{ $employee->id }}</th>
-            <th >{{ $employee->name }}</th>
-            <td>{{ $employee->salary }}</td>
+            <th scope="row">{{ $post->id }}</th>
+            <th >{{ $post->title }}</th>
+            <td>{{ $post->user->name }}</td>
+            <td>{{ $post->description}}</td>
+            <td>{{ $post->name}}</td>
 
+                <td class="center">
+
+                    <img src="{{asset('/imagesss/'.$post->image ) }}" style="width: 60px; height:60px" alt="img">
+
+                </td>
             <td>
-             <a class="btn btn-success" href="{{ url('/employee_edit/'.$employee->id) }}">Update</a>
-             <a class="btn btn-danger" href="{{ url('/employee_delete/'.$employee->id) }}">Delete</a>
+             <a class="btn btn-success" href="{{ url('/employee_edit/'.$post->id) }}">Update</a>
+             <a class="btn btn-danger" href="{{ url('/employee_delete/'.$post->id) }}">Delete</a>
 
 
             </td>
@@ -53,6 +77,12 @@
 
         </tbody>
       </table>
+
+
+
+<center class="mt-5">
+    {{  $posts->withQueryString()->links() }}
+</center>
 
 </div>
 
@@ -72,8 +102,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js" integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-
 <script>
     @if (Session::has('message'))
 
@@ -87,11 +115,10 @@ toastr.success("{{ Session::get('message') }}"
 // , 'Success! New Student added'
 );
 
-
-
        @endif
    </script>
 
+{{-- -----toastr end---- --}}
 
 </body>
 </html>

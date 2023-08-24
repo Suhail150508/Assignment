@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PostController;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,17 @@ Route::get('/', function () {
 
 
 
-Route::get('/employee_show',[EmployeeController::class,'employee_show']);
-Route::get('/employee_create',[EmployeeController::class,'employee_create']);
-Route::post('/employee_store',[EmployeeController::class,'employee_store']);
-Route::get('/employee_edit/{id}',[EmployeeController::class,'employee_edit']);
-Route::put('/employee_update/{id}',[EmployeeController::class,'employee_update']);
-Route::get('/employee_delete/{id}',[EmployeeController::class,'employee_delete']);
+Route::get('/employee_show',[PostController::class,'employee_show']);
+Route::get('/employee_create',[PostController::class,'employee_create']);
+Route::post('/employee_store',[PostController::class,'employee_store']);
+Route::get('/employee_edit/{id}',[PostController::class,'employee_edit']);
+Route::put('/employee_update/{id}',[PostController::class,'employee_update']);
+Route::get('/employee_delete/{id}',[PostController::class,'employee_delete']);
+
+Route::get('/search',[PostController::class,'search']);
+
+
+
+// ---------------Authentication -----------
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
